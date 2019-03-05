@@ -83,9 +83,13 @@ QEMUOPTS += $(shell if $(QEMU) -nographic -help | grep -q '^-D '; then echo '-D 
 
 %.o: %.c
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS) $(WARNINGS) $(DEFINES) $(DEPS)
+	$(OBJDUMP) -S $@ > $(@:.o=.asm)
+	$(NM) -n $@ > $(@:.o=.sym)
 
 %.o: %.S
 	$(CC) -c $< -o $@ $(ASFLAGS) $(CPPFLAGS) $(DEFINES) $(DEPS)
+	$(OBJDUMP) -S $@ > $(@:.o=.asm)
+	$(NM) -n $@ > $(@:.o=.sym)
 
 threads/kernel.lds.s: CPPFLAGS += -P
 threads/kernel.lds.s: threads/kernel.lds.S threads/loader.h
@@ -100,10 +104,13 @@ kernel.bin: kernel.o
 
 threads/loader.o: threads/loader.S
 	$(CC) -c $< -o $@ $(ASFLAGS) $(CPPFLAGS) $(DEFINES)
+	$(OBJDUMP) -S $@ > $(@:.o=.asm)
+	$(NM) -n $@ > $(@:.o=.sym)
 
 loader.bin: threads/loader.o
 	$(LD) $(LDOPTIONS) -N -e 0 -Ttext 0x7c00 -o loader.out $<
 	$(OBJDUMP) -S loader.out > loader.asm
+	$(NM) -n loader.out > loader.sym
 	$(OBJCOPY) -S -O binary -j .text loader.out $@
 	rm loader.out
 
