@@ -80,7 +80,7 @@ pintos_init (void)
 
   /* Clear BSS. */  
   // TODO uncomment this
-  //bss_init ();
+  bss_init ();
 
   /* Break command line into arguments and parse options. */
   argv = read_command_line ();
