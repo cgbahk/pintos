@@ -53,6 +53,15 @@ usage()
 {
   cat <<EOF
 
+  **NOTE**  Some modern g++ version seems not accept gcc and gdb version here. In
+            this case, recommend to give `CXXFLAGS="-fpermissive"`.
+
+            Some environments do not have libncurses dev library which is required
+            for gdb build. (It says no termcap library found) In this case,
+            try `apt install libcurses5-dev`.
+
+  TODO consider docker image
+
   Usage: $0 [options] [DEST_DIR] [TOOL]
 
     -h: display this message
