@@ -11,4 +11,4 @@ PATH=$TOOLCHAIN_BIN_PATH:$PATH
 PATH=$UTILS_PATH:$PATH
 export PATH
 
-export PS1="${PS1:: -2}(i386-elf) > "
+export PS1="${PS1::$((${#PS1} - 2))}(i386-elf) > "
